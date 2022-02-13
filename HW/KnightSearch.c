@@ -22,7 +22,6 @@ void solve(int x, int y, int target){
     }
     for(int i=0; i<8; i++){
         if(check(x+dir[i][0], y+dir[i][1], target) && !done){
-            printf("Get %c at %d %d\n", str[target], x+dir[i][0], y+dir[i][1]);
             solve(x+dir[i][0], y+dir[i][1], target+1);
         }
     }
