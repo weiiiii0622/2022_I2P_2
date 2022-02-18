@@ -25,12 +25,10 @@ int check(int x, int y, char c){
 }
 
 void solve(int x){
-    if(m==M && n==N){
-        
+    if(x == size) {
         ans++;
         return;
     }
-    if(x == size) return;
     if(n<N){
         for(int i=0; i<size; i++){
             if(check(x, i, 'Q')){
