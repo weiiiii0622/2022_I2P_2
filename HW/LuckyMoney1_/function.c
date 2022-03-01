@@ -1,13 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-
-typedef struct _Node{
-    int number;
-    struct _Node* prev;
-    struct _Node* next;
-}Node;
-
-Node* head;
+#include "function.h"
 
 Node* createList(int n){
     Node *temp;
@@ -64,8 +57,6 @@ void solve(int n, int m){
             if(pos->next != NULL) pos->next->prev = cur;
             pos->next = cur;
         }
-        //printf("cur->prev:%d/ cur:%d / pos:%d\n", cur->prev->number, cur->number, pos->number);
-
         temp = head;
         printf("%d", temp->number);
         temp = temp->next;
@@ -76,18 +67,4 @@ void solve(int n, int m){
         printf("\n");
     }
     return;
-}
-
-int main(){
-
-    int n, k;
-    int p=1;
-
-    while(scanf("%d%d", &n, &k)!=EOF && p){
-        head = createList(n);
-        solve(n, k);
-        p--;
-    }
-
-    return 0;
 }
