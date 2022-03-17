@@ -27,6 +27,8 @@ void PrintList(Node *hd){
     return;
 }
 
+
+
 void Merge(Node *hd, int a, int b){
     int flag=0, count=0;
     Node *cur = hd->next, *before = hd;
@@ -61,10 +63,12 @@ void Merge(Node *hd, int a, int b){
     to->data = arr;
     return;
 }
+
+
 void Cut(Node* hd, int target, int cnt){
     int count=0;
     Node *cur = hd->next;
-    while(cur!=NULL){
+    while(cur != NULL){
         count++;
         if(count==target){
             break;

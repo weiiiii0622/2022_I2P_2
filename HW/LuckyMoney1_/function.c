@@ -3,68 +3,52 @@
 #include "function.h"
 
 Node* createList(int n){
-    Node *temp;
-    temp = (Node*) malloc(sizeof(Node));
-    temp->number = 1; temp->next = NULL; temp->prev = NULL;
-    head = temp;
+    Node *hd = (Node*) malloc(sizeof(Node));
+    hd->prev = NULL; hd->next = NULL; hd->number = 1;
+    Node *cur = hd;
     for(int i=2; i<=n; i++){
-        Node* new = (Node*) malloc(sizeof(Node));
-        new->number = i; new->next = NULL; new->prev = temp;
-        temp->next = new;
-        temp = temp->next;
+        Node *new = (Node*) malloc(sizeof(Node));
+        new->prev = cur; new->next = NULL; new->number = i;
+        cur->next = new;
+        cur = cur->next;
     }
-    return head;
+    return hd;
 }
 
 void solve(int n, int m){
-    Node* temp = head;
-    printf("%d", temp->number);
-    temp = temp->next;
-    while(temp!=NULL){
-        printf(" %d", temp->number);
-        temp = temp->next;
+    Node *cur = head;
+    for(int i=1; i<=n; i++){
+        if(i!=n) printf("%d ", cur->number);
+        else printf("%d\n", cur->number);
+        cur = cur->next;
     }
-    printf("\n");
-
-    int a, k;
     while(m--){
-        scanf("%d %d", &a, &k);
+        int a, k; scanf("%d %d", &a, &k); k = a+k>n?n:a+k;
+        cur = head;
         if(a!=n){
-        
-            int cnt=0;
-            Node *cur = head;
-            Node *pos;
-
-            while(cur != NULL){
-                cnt++; if(cnt==a) break;
+            cur = head;
+            Node *target, *pos;
+            for(int i=1; i<=n; i++){
+                if(i==a) target = cur;
+                else if(i==k) {pos = cur; break;}
                 cur = cur->next;
             }
-            if(cur==head){
-                cur->next->prev = NULL;
-                head = head->next;
+            if(target==head){
+                head = target->next;
             }
-            else{
-                cur->prev->next = cur->next;
-                cur->next->prev = cur->prev;
-            }
-            pos = cur->next; cnt = 0;
-            while(pos->next != NULL){
-                cnt++; if(cnt==k) break;
-                pos = pos->next;
-            }
-            cur->prev = pos;
-            cur->next = pos->next;
-            if(pos->next != NULL) pos->next->prev = cur;
-            pos->next = cur;
+            target->next->prev = target->prev;
+            if(target->prev!=NULL) target->prev->next = target->next;
+            target->next = pos->next; target->prev = pos;
+            if(pos->next!=NULL) pos->next->prev = target;
+            pos->next = target;
         }
-        temp = head;
-        printf("%d", temp->number);
-        temp = temp->next;
-        while(temp!=NULL){
-            printf(" %d", temp->number);
-            temp = temp->next;
+
+        cur = head;
+        for(int i=1; i<=n; i++){
+            if(i!=n) printf("%d ", cur->number);
+            else printf("%d\n", cur->number);
+            cur = cur->next;
         }
-        printf("\n");
     }
     return;
 }
