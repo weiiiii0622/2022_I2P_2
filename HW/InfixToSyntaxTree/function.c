@@ -71,3 +71,41 @@ void freeTree(BTNode *root){
     }
 }
 
+
+BTNode *EXPR(){
+    BTNode *node, *right;
+    if(pos>=0){
+        right = FACTOR();
+        if(pos>0){
+            char c = expr[pos];
+            if(c=='|' || c=='&'){
+                node = makeNode(c);
+                node->right = right;
+                pos--;
+                node->right = EXPR();
+            }else{
+                node = right;
+            }
+        }else{
+            node = right;
+        }
+    }
+    return node;
+}
+
+BTNode *FACTOR(){
+    BTNode *node;
+    char c = expr[pos--];
+    if(pos>=0){
+        if(c>='A' && c<='D'){
+            node = makeNode(c);
+        }else if(c==')'){
+            node = EXPR();
+            if(expr[pos--] != '('){
+                freeTree(node);
+            }
+        }
+    }
+
+    return node;
+}
