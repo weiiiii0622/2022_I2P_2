@@ -6,7 +6,7 @@
 
 typedef struct _Node{
     int data;
-    struct _ *left, *right;
+    struct _Node *left, *right;
 } Node;
 
 typedef struct _List{
@@ -15,35 +15,93 @@ typedef struct _List{
 } List;
 
 int n;
-List *lst[MXN], *rst[MXN], *rt;
-List *lst_bck[MXN], *rst_bck[MXN], *rt_bck;
+int cnt;
 
-void init(){
-    for(int i=1; i<=n; i++){
-        lst_bck[i] = lst[i] = NULL;
-    }
-    rt_bck = rt = NULL;
+Node* makeNode(int data){
+    Node *new = (Node*) malloc(sizeof(Node));
+    new->data = data;
+    new->left = new->right = NULL;
+    return new;
+}
+
+void addTree(Node *root, List **trees_bck){
+    List *new = (List*) malloc(sizeof(List));
+    new->root = root;
+    new->next = NULL;
+    (*trees_bck)->next = new;
+    (*trees_bck) = (*trees_bck)->next;
     return;
 }
 
-Node* construct_lst(int L, int R){
-    if(L>=R) return NULL;
-    for(int i=L; i<R; i++){
-        
+void printList(List *tree){
+    List *cur = tree;
+    while(cur!=NULL){
+        if(cur->root!=NULL) printf("%d ", cur->root->data);
+        cur = cur->next;
     }
+    printf(" END\n");
+    return;
+}
+
+List* construct(int L, int R){
+    List *trees = (List*) malloc(sizeof(List)); //DummyNode
+    List *trees_bck = trees; // O(1) add root
+
+    if(L>R){
+        List *new = (List*) malloc(sizeof(List)); // Add a NODE with data=NULL
+        new->next = NULL;
+        new->root = NULL;
+        trees->next = new;
+        trees->root = NULL;
+        return trees;
+    }
+    for(int i=L; i<=R; i++){
+        List *Lst = construct(L, i-1);
+        List *Rst = construct(i+1, R);
+
+        Lst = Lst->next; //Skip DummyNode
+        while(Lst!=NULL){
+
+            List *cur = Rst->next;
+            while(cur!=NULL){
+                Node *root = makeNode(i);
+                root->left = Lst->root;
+                root->right = cur->root;
+                addTree(root, &trees_bck);
+                cur = cur->next;
+            }
+
+            Lst = Lst->next;
+        }
+    }
+    return trees;
+}
+
+void preorder(Node *root){
+    if(root==NULL) return;
+    cnt++;
+    if(cnt==n) {
+        printf("%d\n", root->data);
+        return;
+    }
+    else printf("%d ", root->data);
+    preorder(root->left);
+    preorder(root->right);
+    return;
 }
 
 int main(){
 
     scanf("%d", &n);
-    init();
-    for(int i=1; i<=n; i++){
-        List *new_lst = (List*) malloc(sizeof(List));
-        new_lst->root = construct_lst(1, i);
-        if(lst_bck[i]==NULL) lst_bck[i] = lst[i] = new_lst;
-        else {lst_bck[i]->next = new_lst; lst_bck[i] = new_lst;}
+    List* trees = construct(1, n);
+    List* temp;
+    trees = trees->next;
+    while(trees!=NULL){
+        cnt = 0;
+        temp = trees;
+        preorder(trees->root);
+        trees = trees->next;
+        free(temp);
     }
-
-
     return 0;
 }
