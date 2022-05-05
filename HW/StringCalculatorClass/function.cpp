@@ -2,6 +2,10 @@
 #include"function.h"
 using namespace std;
 
+#include<iostream>
+#include"function.h"
+using namespace std;
+
 String_Calculator::String_Calculator(const string str): s(str){}
 
 String_Calculator& String_Calculator::Add(const string str){

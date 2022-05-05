@@ -79,9 +79,7 @@ int main(void)
         printf("\n");
         freeTree(root);
         n--;
-
-
     }
-
+    
     return 0;
 }
