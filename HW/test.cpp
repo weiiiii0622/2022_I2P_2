@@ -22,10 +22,26 @@ ostream &operator<<(ostream &output, A &s){
 }
 
 int main(){
-    string a;
-    cin >> a;
-    A str(a);
-    cout << str;
-    str.getStr();
+    string str; cin >> str;
+    string ans = "";
+    int cnt;
+    for(int i=0; i<str.length(); i++){
+        char c = str[i++];
+        string cnt_s; stringstream ss;
+        cnt = 1;
+        while(str[i]==c){
+            cnt++; i++;
+        }
+        i--;
+        if(cnt>=3){
+            ss << cnt; ss >> cnt_s;
+            ans += (cnt_s + c);
+        }
+        else{
+            if(cnt==1) ans+=c;
+            else if(cnt==2) (ans+=c)+=c;
+        }
+    }
+    cout << ans << '\n';
     return 0;
 }
