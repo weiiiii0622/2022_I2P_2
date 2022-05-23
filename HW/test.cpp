@@ -21,27 +21,14 @@ ostream &operator<<(ostream &output, A &s){
     return output;
 }
 
+
+
 int main(){
-    string str; cin >> str;
     string ans = "";
-    int cnt;
-    for(int i=0; i<str.length(); i++){
-        char c = str[i++];
-        string cnt_s; stringstream ss;
-        cnt = 1;
-        while(str[i]==c){
-            cnt++; i++;
-        }
-        i--;
-        if(cnt>=3){
-            ss << cnt; ss >> cnt_s;
-            ans += (cnt_s + c);
-        }
-        else{
-            if(cnt==1) ans+=c;
-            else if(cnt==2) (ans+=c)+=c;
-        }
-    }
+    ans[1] = 'a';
+    ans[10] = 'd';
+    cout << ans[0] << ' ' << ans[1] << ' ' << ans[10] << "aa\n";
+    cout << "size: " << ans.size() << '\n';
     cout << ans << '\n';
     return 0;
 }
