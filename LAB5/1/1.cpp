@@ -4,6 +4,11 @@
 #include <algorithm>
 using namespace std;
 
+// G[i] is the neighbor towns of town i
+vector<int> diamondTowns;
+vector<int> G[100005];
+int Dist[100005];
+
 struct node {
     int id;
     int dist;
@@ -13,37 +18,8 @@ struct node {
     }
 };
 
-int N, M, K;
-// G[i] is the neighbor towns of town i
-vector<int> diamondTowns;
-vector<int> G[100005];
-int Dist[100005];
-
-queue<node> Q;
-
-
-void bfs(){
-    
-    //cout << "Hi\n";
-    for(auto x: diamondTowns){
-        Q.push(node(x, 0));
-    }
-    while(!Q.empty()){
-        node nd = Q.front();
-        if(Dist[nd.id] == -1){
-            Dist[nd.id] = nd.dist;
-            //cout << "nd: " << nd.id << " dist: " << nd.dist << '\n';
-            for(auto x:G[nd.id]){
-                Q.push(node(x, nd.dist+1));
-            }
-        }
-        Q.pop();
-    }
-
-}
-
 int main() {
-    
+    int N, M, K;
     cin >> N >> M >> K;
     for (int i = 0; i < M; i++) {
         int a, b;
@@ -58,10 +34,23 @@ int main() {
     }
     fill(Dist, Dist+100005, -1);
 
-    
+    queue<node> Q;
 
     // [TODO] complete the task!
-    bfs();
+    for(auto x:diamondTowns){
+        Q.push(node(x, 0));
+    }
+
+    while(!Q.empty()){
+        node nd = Q.front();
+        if(Dist[nd.id] == -1){
+            Dist[nd.id] = nd.dist;
+            for(auto x: G[nd.id]){
+                Q.push(node(x, nd.dist+1));
+            }
+        }
+        Q.pop();
+    }
 
     // Output
     for (int i = 1; i <= N; i++) {

@@ -3,32 +3,26 @@ using namespace std;
 #define ll long long
 #define INF INT_MAX
 
-class A{
-    friend ostream &operator<<(ostream &, A &);
-    //friend istream &operator>>(istream &, A &);
-    public:
-        A(string s):data(s){};
-        void getStr(){
-            cout << data << '\n';
-        }
-    private:
-        string data;
+template<typename T, class Func>
+void ForEach(T _begin, T _end, Func _func){
+    for(; _begin!=_end; _begin++){
+        _func(*_begin);
+    }
 };
 
-ostream &operator<<(ostream &output, A &s){
-    output << s.data << '\n';
-    
-    return output;
-}
-
-
+struct Power{
+    int exp = 2;
+    void operator()(const int &base){
+        int basex  = std::pow(base, exp);
+    }
+};
 
 int main(){
-    string ans = "";
-    ans[1] = 'a';
-    ans[10] = 'd';
-    cout << ans[0] << ' ' << ans[1] << ' ' << ans[10] << "aa\n";
-    cout << "size: " << ans.size() << '\n';
-    cout << ans << '\n';
+    double A[] = {1,2,3,4,5};
+    ForEach(A, A+5, Power());
+    for(int i=0; i<5; i++){
+        cout << A[i] << ' ';
+    }
+    cout << '\n';
     return 0;
 }
